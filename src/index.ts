@@ -6,7 +6,6 @@ import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
 import { DiscordConfig, onInteraction, onMessage, onReactionAdd, onReady } from './discord-bot'
-import { TwitterConfig } from './twitter'
 import Twitter from 'twitter-lite'
 
 const configPath = path.join(__dirname, './config.json')
@@ -17,8 +16,6 @@ let vipPassword: string | undefined
 
 let discordClient: Client | undefined
 let discord: DiscordConfig | undefined
-let twitterClient: Twitter | undefined
-let twitter: TwitterConfig | undefined
 
 (function loadFiles() {
 	if (fs.existsSync(configPath)) {
@@ -28,7 +25,6 @@ let twitter: TwitterConfig | undefined
 		ownerPassword = config.ownerPassword
 		vipPassword = config.vipPassword
 		discord = config.discord
-		twitter = config.twitter
 		if (!ip || !httpPort || !ownerPassword || !vipPassword) {
 			throw ("Expected 'ip', 'httpPort', 'ownerPassword', and 'vipPassword' in './config.json'.")
 		}
@@ -63,7 +59,6 @@ let twitter: TwitterConfig | undefined
 			})
 			await discordClient.login(discord.token)
 			discordClient.once('ready', onReady.bind(undefined, discord, discordClient))
-			discordClient.on('interactionCreate', onInteraction.bind(undefined, discord, twitterClient))
 			discordClient.on('messageCreate', onMessage.bind(undefined, discord))
 			discordClient.on('messageReactionAdd', onReactionAdd.bind(undefined, discord))
 			console.info('Discord Bot launched.')
@@ -73,24 +68,6 @@ let twitter: TwitterConfig | undefined
 		process.exit(1)
 	}
 })();
-
-(async function launchTwitterApp() {
-	try {
-		if (twitter) {
-			twitterClient = new Twitter({
-				version: '2',
-				extension: false,
-				consumer_key: twitter.apiKey,
-				consumer_secret: twitter.apiSecretKey,
-				bearer_token: twitter.bearerToken,
-			})
-			console.info('Twitter App connected.')
-		}
-	} catch (e) {
-		console.error('[launchTwitterApp]', e)
-		process.exit(1)
-	}
-})()
 
 const index = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf-8').replace('%replace_as_server_url%', `${ip}`)
 const app = express()

@@ -47,7 +47,6 @@ interface Tweet {
 
 	// Minecraft.net START
 	const BugsCenter = 'https://spx.spgoding.com/bugs'
-	const NextMainRelease = '1.17.1'
 
 	async function minecraftNet() {
 		const url = document.location.toString()
@@ -133,7 +132,7 @@ interface Tweet {
 		})
 	}
 
-	async function convertMCArticleToBBCode(html: Document, articleUrl: string, translator: string = '？？？') {
+	async function convertMCArticleToBBCode(html: Document, articleUrl: string, translator = '？？？') {
 		const articleType = getArticleType(html)
 		const versionType = getVersionType(articleUrl)
 
@@ -207,9 +206,9 @@ interface Tweet {
 			ans = ans.slice(0, index)
 		}
 		// Add spaces between texts and '[x'.
-		ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2')
+		ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2')
 		// Add spaces between '[/x]' and texts.
-		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2')
+		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2')
 		// Append the server URL if it exists.
 		if (serverUrl) {
 			ans += `\n[align=center][table=70%,#EDFBFF]
@@ -221,7 +220,7 @@ interface Tweet {
 		return ans
 	}
 
-	async function convertFeedbackArticleToBBCode(html: Document, articleUrl: string, translator: string = '？？？') {
+	async function convertFeedbackArticleToBBCode(html: Document, articleUrl: string, translator = '？？？') {
 		const title = html.title.slice(0, html.title.lastIndexOf(' – Minecraft Feedback'))
 		const ctx = {
 			bugs: {},
@@ -250,7 +249,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content.replac
 		return ans
 	}
 
-	async function convertHelpArticleToBBCode(html: Document, articleUrl: string, translator: string = '？？？') {
+	async function convertHelpArticleToBBCode(html: Document, articleUrl: string, translator = '？？？') {
 		const title = html.title.slice(0, html.title.lastIndexOf(' – Home'))
 		const ctx = {
 			bugs: {},
@@ -277,9 +276,9 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 		let ans = await converters.recurse(rootSection, ctx)
 
 		// Add spaces between texts and '[x'.
-		ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2')
+		ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2')
 		// Add spaces between '[/x]' and texts.
-		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2')
+		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2')
 
 		return ans
 	}
@@ -288,14 +287,14 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 	 * Get the content of an article as the form of a BBCode string.
 	 * @param html An HTML Document.
 	 */
-	 async function getHelpContent(html: Document, ctx: Context) {
+		async function getHelpContent(html: Document, ctx: Context) {
 		const rootSection = html.getElementsByClassName('article-body')[0] as HTMLElement // Yep, this is the only difference.
 		let ans = await converters.recurse(rootSection, ctx)
 
 		// Add spaces between texts and '[x'.
-		ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2')
+		ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2')
 		// Add spaces between '[/x]' and texts.
-		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2')
+		ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2')
 
 		return ans
 	}
@@ -330,7 +329,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 				case 'DL':
 					return converters.dl(node as HTMLElement, ctx)
 				case 'DT':
-					return converters.dt(node as HTMLElement, ctx)
+					return converters.dt()
 				case 'EM':
 					return converters.em(node as HTMLElement, ctx)
 				case 'H1':
@@ -344,7 +343,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 				case 'I':
 					return converters.i(node as HTMLElement, ctx)
 				case 'IMG':
-					return converters.img(node as HTMLImageElement, ctx)
+					return converters.img(node as HTMLImageElement)
 				case 'LI':
 					return converters.li(node as HTMLElement, ctx)
 				case 'OL':
@@ -513,7 +512,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 
 			return ans
 		},
-		dt: async (_ele: HTMLElement, ctx: Context) => {
+		dt: async () => {
 			// const ans = `${converters.rescure(ele)}：`
 
 			// return ans
@@ -586,7 +585,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 
 			return ans
 		},
-		img: async (img: HTMLImageElement, _ctx: Context) => {
+		img: async (img: HTMLImageElement) => {
 			if (img.alt === 'Author image') {
 				return ''
 			}
@@ -761,7 +760,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 				[/\.\.\.( |$)/g, '…'],
 				[/\.( |$)/g, '。'],
 				[/\?( |$)/g, '？'],
-				[/( |^)\-( |$)/g, ' —— '],
+				[/( |^)-( |$)/g, ' —— '],
 			] as [RegExp, string][],
 		]
 
@@ -824,6 +823,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 		const enableAlbum = true
 		return enableAlbum
 			? slides.length > 1
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			: slides.every(([_, caption]) => caption === ' ')
 	}
 
@@ -1144,7 +1144,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 		tweetMetadata.userName = document.querySelector('div[data-testid=tweet] > div:nth-child(2) a span span')!.innerHTML
 		tweetMetadata.lang = document.querySelector('article div[lang]')!.getAttribute('lang')!
 
-		let texts: string[] = []
+		const texts: string[] = []
 		for (const i of document.querySelector('article div[lang]')!.querySelectorAll('span')!) {
 			texts.push(i.innerHTML)
 		}
@@ -1163,7 +1163,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
     const backgroundColor = mode === 'dark' ? '#000000' : '#FFFFFF'
     const foregroundColor = mode === 'dark' ? '#D9D9D9' : '#0F1419'
     const dateString = `${tweet.date} · ${tweet.source} · SPX`
-    let content = tweet.text
+    const content = tweet.text
     return `[align=center][table=560,${backgroundColor}]
 [tr][td][font=-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif][indent]
 [float=left][img=44,44]${ProfilePictures.get(tweet.userTag) ?? '【TODO：头像】'}[/img][/float][size=15px][b][color=${foregroundColor}]${tweet.userName}[/color][/b]

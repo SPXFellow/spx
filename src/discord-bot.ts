@@ -1,11 +1,9 @@
-import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User, UserResolvable } from 'discord.js'
+import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User } from 'discord.js'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
 import { Version2Client as JiraClient } from 'jira.js'
-import type { IssueBean } from 'jira.js/out/version2/models';
-import type Twitter from 'twitter-lite'
-import { getTweet } from './util'
+import type { IssueBean } from 'jira.js/out/version2/models'
 
 const jira = new JiraClient({
 	host: 'https://bugs.mojang.com',
@@ -121,34 +119,6 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 				description: 'An optional JQL query.',
 			}],
 		},
-		{
-			name: 'tweet',
-			description: 'Get the BBCode of a Tweet.',
-			options: [
-				{
-					name: 'dark',
-					type: 'SUB_COMMAND',
-					description: 'Get the BBCode of a Tweet in Dark Mode.',
-					options: [{
-						name: 'url',
-						type: 'STRING',
-						description: 'The URL to a Tweet.',
-						required: true,
-					}],
-				},
-				{
-					name: 'light',
-					type: 'SUB_COMMAND',
-					description: 'Get the BBCode of a Tweet in Light Mode.',
-					options: [{
-						name: 'url',
-						type: 'STRING',
-						description: 'The URL to a Tweet.',
-						required: true,
-					}],
-				},
-			],
-		},
 	]
 
 	// if (config.roles?.length) {
@@ -181,7 +151,7 @@ function getColorEmbed(translator: string, color: `#${string}`) {
 		.setThumbnail(`https://colorhexa.com/${color.slice(1)}.png`)
 }
 
-export async function onInteraction(config: DiscordConfig, twitterClient: Twitter | undefined, interaction: Interaction) {
+export async function onInteraction(config: DiscordConfig, interaction: Interaction) {
 	try {
 		if (!interaction.isCommand()) {
 			return
@@ -219,10 +189,8 @@ export async function onInteraction(config: DiscordConfig, twitterClient: Twitte
 						content,
 						executor: interaction.user,
 						translator,
-						onOverriding: () => (interaction.replied ? interaction.editReply.bind(interaction) : interaction.reply.bind(interaction))
-							(`❓ 以 ${translator} 的身份提交了「${content}」，请确认是否覆盖。`),
-						onTranslated: () => (interaction.replied ? interaction.editReply.bind(interaction) : interaction.reply.bind(interaction))
-							(`✅ 以 ${translator} 的身份提交了「${content}」。`),
+						onOverriding: () => (interaction.replied ? interaction.editReply.bind(interaction) : interaction.reply.bind(interaction))(`❓ 以 ${translator} 的身份提交了「${content}」，请确认是否覆盖。`),
+						onTranslated: () => (interaction.replied ? interaction.editReply.bind(interaction) : interaction.reply.bind(interaction))(`✅ 以 ${translator} 的身份提交了「${content}」。`),
 						sendMessage: content => (interaction.channel as TextChannel).send(content),
 					})
 				} else {
@@ -262,7 +230,7 @@ export async function onInteraction(config: DiscordConfig, twitterClient: Twitte
 					}
 					case 'set': {
 						let color = (interaction.options.first()!.options!.get('value')!.value as string).toLowerCase()
-						let target: User | undefined = interaction.options.first()!.options!.get('user')?.user
+						const target: User | undefined = interaction.options.first()!.options!.get('user')?.user
 						const targetName = target ? tagToName(target.tag) : executor
 						if (!color.startsWith('#')) {
 							color = `#${color}`
@@ -338,7 +306,7 @@ export async function onInteraction(config: DiscordConfig, twitterClient: Twitte
 						embeds: [new MessageEmbed()
 							.setTitle(`共 ${unknownIssues.length} / ${issues.length} 个未翻译漏洞`)
 							.setDescription(unknownIssues.slice(0, 10).map(
-								i => `[${i.key}](https://bugs.mojang.com/browse/${i.key}) ${(i.fields as any)?.['summary'] ?? 'N/A'}`
+								i => `[${i.key}](https://bugs.mojang.com/browse/${i.key}) ${(i.fields as never)?.['summary'] ?? 'N/A'}`
 							).join('\n'))
 						]
 					})
@@ -348,9 +316,11 @@ export async function onInteraction(config: DiscordConfig, twitterClient: Twitte
 						embeds: [new MessageEmbed()
 							.setTitle(`🎉 ${issues.length} 个漏洞均已翻译。`)
 							.setColor(BugCache.getColorFromTranslator(sortedTranslators[0]?.[0]))
+							/* eslint-disable @typescript-eslint/no-unused-vars */
 							.addField('打工人', sortedTranslators.map(([translator, _count]) => `**${translator}**`).join('\n'), true)
 							.addField('#', sortedTranslators.map(([_translator, count]) => count).join('\n'), true)
 							.addField('%', sortedTranslators.map(([_translator, count]) => `${(count / issues.length * 100).toFixed(2)}%`).join('\n'), true)
+							/* eslint-enable @typescript-eslint/no-unused-vars */
 						]
 					})
 				} else {
@@ -375,32 +345,6 @@ export async function onInteraction(config: DiscordConfig, twitterClient: Twitte
 							)
 						]
 					})
-				}
-				break
-			}
-			case 'tweet': {
-				await interaction.defer()
-				const currentTime = new Date()
-				const remainingCooldown = lastQueryTime ? QueryCooldown - (currentTime.getTime() - lastQueryTime.getTime()) : 0
-				if (remainingCooldown > 0) {
-					interaction.editReply(`❌ 冷却剩余 ${remainingCooldown} 毫秒`)
-					break
-				}
-				lastQueryTime = currentTime
-
-				if (!twitterClient) {
-					await interaction.editReply('❌ Twitter App 未配置。')
-					return
-				}
-				const mode = interaction.options.first()!.value as 'dark' | 'light'
-				const tweetLink = interaction.options.first()!.options!.get('url')!.value as string
-				try {
-					const bbcode = await getTweet(twitterClient, mode, tweetLink, executor)
-					await interaction.editReply(`\`\`\`\n${bbcode}\n\`\`\``)
-				} catch (e) {
-					await interaction.editReply(e?.toString().slice(0, 127))
-					console.error('[Discord#onInteraction#Twitter]', e)
-					return
 				}
 				break
 			}
@@ -504,6 +448,7 @@ function markdownToBbcode(value: string): string {
 async function searchIssues(jql: string) {
 	const ans: IssueBean[] = []
 	let totalCount = 0
+	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		const result = await jira.issueSearch.searchForIssuesUsingJqlPost({
 			jql,
