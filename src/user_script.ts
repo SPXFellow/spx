@@ -860,108 +860,87 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 		}
 		switch (type) {
 			case VersionType.Snapshot:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][color=red]每周快照[/color]是Minecraft Java版的测试机制，主要用于下一个正式版的特性预览。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center]然而，每周快照主要用于新特性展示，通常存在大量漏洞。因此对于普通玩家建议仅做[color=Red][b]测试尝鲜[/b][/color]用。在快照中打开存档前请务必[color=Red][b]进行备份[/b][/color]。[b]适用于正式版的Mod不兼容快照，且大多数Mod都不对每周快照提供支持[/b]。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center][color=Red][b]Minecraft ${NextMainRelease} 仍未发布，<版本>为其第<计数器>个预览版。[/b][/color][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFFFCE]
-[tr][td][align=center]部分新特性译名仅供新闻预览
-请到[url=https://crowdin.com/project/minecraft/zh-CN]Crowdin[/url]讨论游戏正式译名。[/align][/td][/tr]
-[/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=48,48]https://attachment.mcbbs.net/data/myattachment/common/6c/common_45_icon.png[/img][/float][size=32px][b][color=#645944]每周快照[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]每周快照[/b]是 Minecraft Java 版的测试机制，用于新特性的展示和反馈收集。
+[*][color=#8E2609]快照有可能导致存档损坏，因此请注意备份，不要直接在你的主存档游玩快照。[/color]
+[*]转载本贴时须要注明原作者以及本帖地址。
+[*]部分新特性译名仅供参考，不代表最终结果。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
 [hr]\n
-【如果没有新方块物品等内容，请删去上方待定译名提示框。】\n`
+【如果没有新方块物品等内容，请删去上方待定译名行。】\n`
 			case VersionType.PreRelease:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][color=red]预发布版[/color]是Minecraft Java版的测试机制，如果该版本作为正式版发布，那么预发布版的游戏文件将与启动器推送的正式版完全相同。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center]然而，预发布版主要用于服主和Mod制作者的预先体验，如果发现重大漏洞，该预发布版会被新的预发布版代替。因此建议普通玩家[color=Red]持观望态度[/color]。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center][color=Red][b]Minecraft ${NextMainRelease} 仍未发布，<版本>为其第<计数器>个预发布版，第<计数器>个预览版。[/b][/color][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr]
-[/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=48,48]https://attachment.mcbbs.net/data/myattachment/common/6c/common_45_icon.png[/img][/float][size=32px][b][color=#645944]预发布版[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]预发布版[/b]是 Minecraft Java 版的测试机制，主要是为了收集漏洞反馈，为正式发布做好准备。
+[*][color=#8E2609]预发布版有可能导致存档损坏，因此请注意备份，不要直接在你的主存档游玩预发布版。[/color]
+[*]转载本贴时须要注明原作者以及本帖地址。
+[*]部分新特性译名仅供参考，不代表最终结果。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
 [hr]\n`
 			case VersionType.ReleaseCandidate:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][color=red]候选版[/color]是Minecraft Java版正式版的候选版本，如果发现重大漏洞，该候选版会被新的候选版代替。如果一切正常，该版本将会作为正式版发布。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center]候选版已可供普通玩家进行抢鲜体验，但仍需当心可能存在的漏洞。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center][color=Red][b]Minecraft ${NextMainRelease} 仍未发布，<版本>为其第<计数器>个候选版，第<计数器>个预览版。[/b][/color][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr]
-[/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=48,48]https://attachment.mcbbs.net/data/myattachment/common/6c/common_45_icon.png[/img][/float][size=32px][b][color=#645944]候选版本[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]候选版本[/b]是 Minecraft Java 版的测试机制。如果没有重大漏洞，该版本将会被用于正式发布。
+[*][color=#8E2609]候选版本有可能导致存档损坏，因此请注意备份，不要直接在你的主存档游玩候选版本。[/color]
+[*]转载本贴时须要注明原作者以及本帖地址。
+[*]部分新特性译名仅供参考，不代表最终结果。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
 [hr]\n`
 			case VersionType.Release:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][b][color=Red]Minecraft Java版[/color]是指Windows、Mac OS与Linux平台上，使用Java语言开发的Minecraft版本。[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][color=red]正式版[/color]是Minecraft Java版经过一段时间的预览版测试后得到的稳定版本，也是众多材质、Mod与服务器插件会逐渐跟进的版本。官方启动器也会第一时间进行推送。[/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center]建议玩家与服主关注其相关服务端、Mod与插件的更新，[color=red]迎接新的正式版吧！[/color]专注于单人原版游戏的玩家可立即更新，多人游戏玩家请关注您所在服务器的通知。[/align][/td][/tr]
-[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr][/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=46,48]https://ooo.0o0.ooo/2017/01/30/588f60bbaaf78.png[/img][/float][size=32px][b][color=#645944] Minecraft Java 版[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]Minecraft Java 版[/b]是指运行在 Windows、macOS 与 Linux 平台上，使用 Java 语言开发的 Minecraft 版本。
+[*][b]正式版[/b]包含所有特性且安全稳定，所有玩家都可以尽情畅享。
+[*]转载本贴时须要注明原作者以及本帖地址。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
 [hr]\n`
 
 			case VersionType.BedrockRelease:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][b][color=Red]Minecraft基岩版[/color]是指包括Minecraft手机版（Android、IOS）、Win10版（VR）、主机版（XboxOne、NS、PS4）在内，使用“基岩引擎”（C++语言）开发的Minecraft统一版本。[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=90%,#FFEBED]
-[tr][td][align=center][b][color=red]正式版是[color=DarkRed]Minecraft基岩版[/color]经过一段时间的测试版测试之后得到的稳定版本，也是众多材质、Addon和官方领域服会逐渐跟进的版本。与此同时Google Play、Win10 Store等官方软件商店也会推送此次更新。[/color][/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr][/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=46,48]https://ooo.0o0.ooo/2017/01/30/588f60bbaaf78.png[/img][/float][size=32px][b][color=#645944]Minecraft 基岩版[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]Minecraft 基岩版[/b]是指运行在移动平台（Android、iOS）、Windows 10、主机（Xbox One、Switch、PlayStation 4）上，使用「基岩引擎」（C++语言）开发的 Minecraft 版本。
+[*][b]正式版[/b]包含所有特性且安全稳定，所有玩家都可以尽情畅享。
+[*]转载本贴时须要注明原作者以及本帖地址。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
-[hr]\n
-`
+[hr]\n`
 
 			case VersionType.BedrockBeta:
-				return `[align=center][table=80%,#EDFBFF]
-[tr][td][align=center][b][color=Red]测试版[/color]是Minecraft基岩版的测试机制，主要用于下一个正式版的特性预览。[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=90%,#FFEBED]
-[tr][td][align=center][b]然而，测试版主要用于新特性展示，通常存在大量漏洞。因此对于普通玩家建议仅做[color=red]测试尝鲜[/color]用。使用测试版打开存档前请[color=red]务必备份[/color]。适用于正式版的领域服务器与测试版不兼容。[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=90%,#FFEBED]
-[tr][td][align=center][b]如果在测试版中遇到旧版存档无法使用的问题，测试版将允许你将存档上传以供开发团队查找问题。[/b][/align][/td][/tr]
-[/table][/align]
-[align=center][table=80%,#FFEBED]
-[tr][td][align=center][color=Red][b]Minecraft基岩版 <正式版版本号> 仍未发布，<当前版本号>为其第<计数器>个测试版。[/b][/color][/align][/td][/tr]
-[/table][/align]
-[align=center][table=50%,#EDFBFF]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr]
-[/table][/align]
+				return `[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=48,48]https://attachment.mcbbs.net/data/myattachment/common/6c/common_45_icon.png[/img][/float][size=32px][b][color=#645944]测试版[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][b]测试版[/b]是 Minecraft 基岩版的测试机制，主要用于下一个正式版的特性预览。
+[*][color=#8E2609]测试版有可能导致存档损坏，因此请注意备份，不要直接在你的主存档游玩测试版。[/color]
+[*]转载本贴时须要注明原作者以及本帖地址。
+[*]部分新特性译名仅供参考，不代表最终结果。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 
-[hr]\n
-`
+[hr]\n`
 
 			case VersionType.Normal:
 			default:
-				return `\n[align=center][table=50%,#FFEBED]
-[tr][td][align=center]转载本贴时须要注明[b]原作者[/b]以及[b]本帖地址[/b]。[/align][/td][/tr][/table][/align]
+				return `\n[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/3c/common_499_icon.png[/img][/float][size=24px][b][color=#645944] 转载须知[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]转载本贴时须要注明原作者以及本帖地址。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
 [hr]\n`
 
 		}
@@ -973,109 +952,148 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
 		}
 		switch (type) {
 			case VersionType.Snapshot:
-				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正版启动器下载地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Windows[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/MinecraftInstaller.msi]https://launcher.mojang.com/download/MinecraftInstaller.msi[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Mac/OSX[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.dmg]https://launcher.mojang.com/download/Minecraft.dmg[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Linux/其他[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.tar.gz]https://launcher.mojang.com/download/Minecraft.tar.gz[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]预览版的下载方式以及运行说明[/b][/color][/size][/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于正版用户[/align][/color][/td][td][align=center]官方启动器是跟进最及时、运行最稳定的启动器，每次启动均会自动检查并下载启动器最新版本。Java版的启动器下载地址在上文已经提供。[/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于非正版用户[/align][/color][/td][td][align=center]非正版用户[b]完全可以[/b]体验预览版本，请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821]推荐启动器列表[/url]寻找合适的启动器。目前绝大多数主流启动器都带有游戏下载功能。如有仍疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html]原版问答[/url]板块提问。[/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+				return `\n[*][url=https://www.minecraft.net/zh-hans/download/][color=Sienna]正版启动器下载地址[/color][/url]
+[*][url=https://bugs.mojang.com/browse/MC][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩快照？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]对于正版用户：请打开官方启动器，在「配置」选项卡中启用「快照」，选择「最新快照」即可。
+[*]对于非正版用户：请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821][color=Sienna]推荐启动器列表[/color][/url]寻找合适的启动器。目前绝大多数主流启动器都带有下载功能。如仍有疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html][color=Sienna]原版问答[/color][/url]板块提问。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.PreRelease:
-				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正版启动器下载地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Windows[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/MinecraftInstaller.msi]https://launcher.mojang.com/download/MinecraftInstaller.msi[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Mac/OSX[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.dmg]https://launcher.mojang.com/download/Minecraft.dmg[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Linux/其他[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.tar.gz]https://launcher.mojang.com/download/Minecraft.tar.gz[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]预览版的下载方式以及运行说明[/b][/color][/size][/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于正版用户[/align][/color][/td][td][align=center]官方启动器是跟进最及时、运行最稳定的启动器，每次启动均会自动检查并下载启动器最新版本。Java版的启动器下载地址在上文已经提供。[/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于非正版用户[/align][/color][/td][td][align=center]非正版用户[b]完全可以[/b]体验预览版本，请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821]推荐启动器列表[/url]寻找合适的启动器。目前绝大多数主流启动器都带有游戏下载功能。如有仍疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html]原版问答[/url]板块提问。[/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+				return `\n[*][url=https://www.minecraft.net/zh-hans/download/][color=Sienna]正版启动器下载地址[/color][/url]
+[*][url=https://bugs.mojang.com/browse/MC][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩预发布版？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]对于正版用户：请打开官方启动器，在「配置」选项卡中启用「快照」，选择「最新快照」即可。
+[*]对于非正版用户：请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821][color=Sienna]推荐启动器列表[/color][/url]寻找合适的启动器。目前绝大多数主流启动器都带有下载功能。如仍有疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html][color=Sienna]原版问答[/color][/url]板块提问。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.ReleaseCandidate:
-				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正版启动器下载地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Windows[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/MinecraftInstaller.msi]https://launcher.mojang.com/download/MinecraftInstaller.msi[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Mac/OSX[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.dmg]https://launcher.mojang.com/download/Minecraft.dmg[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Linux/其他[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.tar.gz]https://launcher.mojang.com/download/Minecraft.tar.gz[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]预览版的下载方式以及运行说明[/b][/color][/size][/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于正版用户[/align][/color][/td][td][align=center]官方启动器是跟进最及时、运行最稳定的启动器，每次启动均会自动检查并下载启动器最新版本。Java版的启动器下载地址在上文已经提供。[/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于非正版用户[/align][/color][/td][td][align=center]非正版用户[b]完全可以[/b]体验预览版本，请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821]推荐启动器列表[/url]寻找合适的启动器。目前绝大多数主流启动器都带有游戏下载功能。如有仍疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html]原版问答[/url]板块提问。[/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+				return `\n[*][url=https://www.minecraft.net/zh-hans/download/][color=Sienna]正版启动器下载地址[/color][/url]
+[*][url=https://bugs.mojang.com/browse/MC][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩候选版本？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]对于正版用户：请打开官方启动器，在「配置」选项卡中启用「快照」，选择「最新快照」即可。
+[*]对于非正版用户：请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821][color=Sienna]推荐启动器列表[/color][/url]寻找合适的启动器。目前绝大多数主流启动器都带有下载功能。如仍有疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html][color=Sienna]原版问答[/color][/url]板块提问。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.Release:
-				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正版启动器下载地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Windows[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/MinecraftInstaller.msi]https://launcher.mojang.com/download/MinecraftInstaller.msi[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Mac/OSX[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.dmg]https://launcher.mojang.com/download/Minecraft.dmg[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Linux/其他[/align][/color][/td][td][align=center][url=https://launcher.mojang.com/download/Minecraft.tar.gz]https://launcher.mojang.com/download/Minecraft.tar.gz[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正式版的下载方式以及运行说明[/b][/color][/size][/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于正版用户[/align][/color][/td][td][align=center]官方启动器是跟进最及时、运行最稳定的启动器，每次启动均会自动检查并下载启动器最新版本。Java版的启动器下载地址在上文已经提供。[/align][/td][/tr]
-[tr][td=15%][color=#D10A0A][align=center]对于非正版用户[/align][/color][/td][td][align=center]非正版用户也请使用启动器下载游戏，请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821]推荐启动器列表[/url]寻找合适的启动器。目前绝大多数主流启动器都带有游戏下载功能。如有仍疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html]原版问答[/url]板块提问。[/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+				return `\n[*][url=https://www.minecraft.net/zh-hans/download/][color=Sienna]正版启动器下载地址[/color][/url]
+[*][url=https://bugs.mojang.com/browse/MC][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩正式版？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]对于正版用户：请打开官方启动器，选择「最新版本」即可。
+[*]对于非正版用户：请于[url=http://www.mcbbs.net/forum.php?mod=viewthread&tid=38297&page=1#pid547821][color=Sienna]推荐启动器列表[/color][/url]寻找合适的启动器。目前绝大多数主流启动器都带有下载功能。如仍有疑惑请到[url=http://www.mcbbs.net/forum-qanda-1.html][color=Sienna]原版问答[/color][/url]板块提问。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.BedrockRelease:
 				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]正版地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Google Play[/align][/color][/td][td][align=center][url=https://play.google.com/store/apps/details?id=com.mojang.minecraftpe]https://play.google.com/store/apps/details?id=com.mojang.minecraftpe[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]Win10 Store[/align][/color][/td][td][align=center][url=https://www.microsoft.com/zh-cn/store/p/minecraft-for-windows-10/9nblggh2jhxj]https://www.microsoft.com/zh-cn/store/p/minecraft-for-windows-10/9nblggh2jhxj[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/39/common_137_icon.png[/img][/float][size=24px][b][color=#645944] 实用链接[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://bugs.mojang.com/browse/MCPE][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩测试版？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]请访问[url=https://www.minecraft.net/zh-hans/get-minecraft][color=Sienna]官方游戏获取地址[/color][/url]，根据您所使用的平台获取游戏。
+[*]在新建/编辑地图时，请滑动到「实验性游戏内容（Experiments）」，打开 "Caves & Cliffs" 即可体验洞穴与山崖更新的最新内容。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.BedrockBeta:
 				return `\n[hr]
-[align=center][table=70%,#EDFBFF]
-[tr][td=2,1][align=center][size=3][color=#D6D604][b]相关地址[/b][/color][/size][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]谷歌正版[/align][/color][/td][td][align=center][url=https://play.google.com/store/apps/details?id=com.mojang.minecraftpe]https://play.google.com/store/apps/details?id=com.mojang.minecraftpe[/url][/align][/td][/tr]
-[tr][td][color=#D10A0A][align=center]基岩版测试组[/align][/color][/td][td][align=center]安卓Google Play：[url=https://play.google.com/apps/testing/com.mojang.minecraftpe]https://play.google.com/apps/testing/com.mojang.minecraftpe[/url][/align][align=center]Win10 Store：[url=https://www.microsoft.com/zh-cn/store/p/xbox-insider-hub/9nblggh68vsk]https://www.microsoft.com/zh-cn/store/p/xbox-insider-hub/9nblggh68vsk[/url][/align][/td][/tr]
-[/table][/align]
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/39/common_137_icon.png[/img][/float][size=24px][b][color=#645944] 实用链接[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://bugs.mojang.com/browse/MCPE][color=Sienna]漏洞报告站点（仅限英文）[/color][/url]
+[*][url=https://aka.ms/CavesCliffsFeedback?ref=minecraftnet][color=Sienna]官方反馈网站（仅限英文，适用于洞穴与山崖更新）[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=40,32]https://attachment.mcbbs.net/data/myattachment/common/d6/common_39_icon.png[/img][/float][size=24px][b][color=#645944] 如何游玩测试版？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*]请访问[url=https://www.minecraft.net/zh-hans/get-minecraft][color=Sienna]官方游戏获取地址[/color][/url]，根据您所使用的平台获取游戏。
+[*]基岩测试版仅限于 Windows 10、Android、Xbox One 平台。请根据[url=https://www.mcbbs.net/thread-1183093-1-1.html][color=Sienna]官方指引[/color][/url]启用/关闭测试版。
+[*]在新建/编辑地图时，请滑动到「实验性游戏内容（Experiments）」，打开 "Caves & Cliffs" 即可体验洞穴与山崖更新的最新内容。
+[/list][/size][/td][/tr]
+[/table][/font][/align]
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 
 			case VersionType.Normal:
 			default:
 				return `\n[hr]
-
-[align=center][img=416,132]https://attachment.mcbbs.net/data/myattachment/forum/201905/10/183113w1yyttpjz8epq60s.jpg[/img][/align]
-[align=center][table=75%,#FFEBED]
-[tr][td][align=center][url=https://www.mcbbs.net/thread-874677-1-1.html]外部来源以及详细的更新条目追踪[/url][/align][/td][/tr]
-[/table][/align]`
+[align=center][font=-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, sans-serif][table=85%]
+[tr=#E3C99E][td][float=left][img=32,32]https://attachment.mcbbs.net/data/myattachment/common/e0/common_139_icon.png[/img][/float][size=24px][b][color=#645944] 想了解更多新闻资讯？[/color][/b][/size][/td][/tr]
+[tr=#FDF6E5][td][size=16px][list]
+[*][url=https://www.mcbbs.net/thread-874677-1-1.html][color=Sienna]外部来源以及详细的更新条目追踪[/color][/url]
+[*][url=https://www.mcbbs.net/forum.php?mod=forumdisplay&fid=139][color=Sienna]我的世界中文论坛 - 新闻资讯板块[/color][/url]
+[/list][/size][/td][/tr]
+[/table][/font][/align]`
 		}
 	}
 
