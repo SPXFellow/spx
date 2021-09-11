@@ -43,6 +43,8 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 		}
 		const executor = tagToName(interaction.user.tag)
 
+		console.log(interaction.toJSON())
+
 		if (!interaction.member || (
 			interaction.channelId !== config.channel && !['join', 'ping'].includes(interaction.commandName)
 		)) {
