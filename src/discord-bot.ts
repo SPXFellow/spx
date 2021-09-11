@@ -2,7 +2,6 @@ import { discord } from './index'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, PartialMessageReaction, TextChannel, User } from 'discord.js'
-import { ApplicationCommandOptionTypes } from 'discord.js/typings/enums'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
@@ -23,6 +22,19 @@ export interface DiscordConfig {
 		name: string,
 		role: `${bigint}`,
 	}[],
+}
+
+enum ApplicationCommandOptionTypes {
+  SUB_COMMAND = 1,
+  SUB_COMMAND_GROUP = 2,
+  STRING = 3,
+  INTEGER = 4,
+  BOOLEAN = 5,
+  USER = 6,
+  CHANNEL = 7,
+  ROLE = 8,
+  MENTIONABLE = 9,
+  NUMBER = 10,
 }
 
 const MaxSearchCount = 1_500
