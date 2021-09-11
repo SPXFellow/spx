@@ -5,8 +5,7 @@ import * as path from 'path'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
-import { DiscordConfig, onInteraction, onMessage, onReactionAdd, onReady } from './discord-bot'
-import Twitter from 'twitter-lite'
+import { DiscordConfig, onMessage, onReactionAdd, onReady } from './discord-bot'
 
 const configPath = path.join(__dirname, './config.json')
 let httpPort: number | undefined
