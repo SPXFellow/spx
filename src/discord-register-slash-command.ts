@@ -1,6 +1,6 @@
 import { ApplicationCommandData, Client as DiscordClient } from 'discord.js'
 import { discord } from './index'
-import { REST } from '@discordjs/rest'
+// import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { DiscordConfig } from './discord-bot'
 
@@ -99,14 +99,14 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			}],
 		},
 	]
-	const rest = new REST({ version: '9' }).setToken(discord!.token);
+	// const rest = new REST({ version: '9' }).setToken(discord!.token);
 	try {
 		console.log('Started refreshing application (/) commands.');
 
-		await rest.put(
-			Routes.applicationGuildCommands(discord!.appId, discord!.guild),
-			{ body: data.toString() },
-		);
+		//await rest.put(
+		//	Routes.applicationGuildCommands(discord!.appId, discord!.guild),
+		//	{ body: data.toString() },
+		//);
 
 		console.log('Successfully reloaded application (/) commands.');
 	} catch (error) {
