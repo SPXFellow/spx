@@ -130,7 +130,7 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 
 		await rest.put(
 			Routes.applicationGuildCommands(discord!.appId, discord!.guild),
-			{ body: data },
+			{ body: data.toString() },
 		);
 
 		console.log('Successfully reloaded application (/) commands.');
