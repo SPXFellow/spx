@@ -1,4 +1,7 @@
-import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User } from 'discord.js'
+import { discord } from './index'
+import { REST } from '@discordjs/rest'
+import { Routes } from 'discord-api-types/v9'
+import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, PartialMessageReaction, TextChannel, User } from 'discord.js'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
@@ -14,6 +17,7 @@ export interface DiscordConfig {
 	guild: `${bigint}`,
 	channel: `${bigint}`,
 	role: `${bigint}`,
+	appId: `${bigint}`,
 	roles?: {
 		name: string,
 		role: `${bigint}`,
@@ -35,7 +39,7 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 				type: 'STRING',
 				description: 'The ticket key.',
 				required: true,
-			}],
+			}]
 		},
 		{
 			name: 'as',
@@ -120,6 +124,19 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			}],
 		},
 	]
+	const rest = new REST({ version: '9' }).setToken(discord!.token);
+	try {
+		console.log('Started refreshing application (/) commands.');
+
+		await rest.put(
+			Routes.applicationGuildCommands(discord!.appId, discord!.guild),
+			{ body: data },
+		);
+
+		console.log('Successfully reloaded application (/) commands.');
+	} catch (error) {
+		console.error(error);
+	}
 
 	// if (config.roles?.length) {
 	// 	data.push({
@@ -151,7 +168,7 @@ function getColorEmbed(translator: string, color: `#${string}`) {
 		.setThumbnail(`https://colorhexa.com/${color.slice(1)}.png`)
 }
 
-export async function onInteraction(config: DiscordConfig, interaction: Interaction) {
+export async function onInteractionCreate(config: DiscordConfig, interaction: Interaction) {
 	try {
 		if (!interaction.isCommand()) {
 			return
@@ -208,9 +225,9 @@ export async function onInteraction(config: DiscordConfig, interaction: Interact
 				})
 				break
 			case 'color':
-				switch (interaction.options.first()!.name) {
+				switch (interaction.options.getSubcommand()) {
 					case 'clear': {
-						const target = tagToName(interaction.options.first()!.options!.first()!.user!.tag)
+						const target = tagToName(interaction.user.tag)
 						ColorCache.remove(target)
 						ColorCache.save()
 						await interaction.reply({
@@ -223,14 +240,14 @@ export async function onInteraction(config: DiscordConfig, interaction: Interact
 						break
 					}
 					case 'get': {
-						const target = tagToName(interaction.options.first()!.options!.first()!.user!.tag)
+						const target = tagToName(interaction.user.tag)
 						const color = BugCache.getColorFromTranslator(target)
 						await interaction.reply({ embeds: [getColorEmbed(target, color)] })
 						break
 					}
 					case 'set': {
-						let color = (interaction.options.first()!.options!.get('value')!.value as string).toLowerCase()
-						const target: User | undefined = interaction.options.first()!.options!.get('user')?.user
+						let color = (interaction.options.getString('value')!).toLowerCase()
+						const target: User | undefined = interaction.user
 						const targetName = target ? tagToName(target.tag) : executor
 						if (!color.startsWith('#')) {
 							color = `#${color}`
@@ -276,7 +293,6 @@ export async function onInteraction(config: DiscordConfig, interaction: Interact
 				interaction.reply('🏓 Pong!')
 				break
 			case 'query': {
-				await interaction.defer()
 				const currentTime = new Date()
 				const remainingCooldown = lastQueryTime ? QueryCooldown - (currentTime.getTime() - lastQueryTime.getTime()) : 0
 				if (remainingCooldown > 0) {
@@ -469,7 +485,7 @@ async function searchIssues(jql: string) {
 	return ans
 }
 
-export async function onReactionAdd(_config: DiscordConfig, reaction: MessageReaction, user: User | PartialUser) {
+export async function onMessageReactionAdd(_config: DiscordConfig, reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
 	try {
 		user = await ensureUser(user)
 		if (overrideConfirmations.has(reaction.message.id)) {

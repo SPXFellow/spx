@@ -30,7 +30,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     // 看不惯，别看。看美国人的脚本去。
     // Minecraft.net START
     const BugsCenter = 'https://spx.spgoding.com/bugs';
-    const NextMainRelease = '1.17.1';
     function minecraftNet() {
         return __awaiter(this, void 0, void 0, function* () {
             const url = document.location.toString();
@@ -178,9 +177,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 ans = ans.slice(0, index);
             }
             // Add spaces between texts and '[x'.
-            ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2');
+            ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2');
             // Add spaces between '[/x]' and texts.
-            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2');
+            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2');
             // Append the server URL if it exists.
             if (serverUrl) {
                 ans += `\n[align=center][table=70%,#EDFBFF]
@@ -241,9 +240,9 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
             const rootSection = html.getElementsByClassName('article-info')[0];
             let ans = yield converters.recurse(rootSection, ctx);
             // Add spaces between texts and '[x'.
-            ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2');
+            ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2');
             // Add spaces between '[/x]' and texts.
-            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2');
+            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2');
             return ans;
         });
     }
@@ -256,9 +255,9 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
             const rootSection = html.getElementsByClassName('article-body')[0]; // Yep, this is the only difference.
             let ans = yield converters.recurse(rootSection, ctx);
             // Add spaces between texts and '[x'.
-            ans = ans.replace(/([a-zA-Z0-9\-\.\_])(\[[A-Za-z])/g, '$1 $2');
+            ans = ans.replace(/([a-zA-Z0-9\-._])(\[[A-Za-z])/g, '$1 $2');
             // Add spaces between '[/x]' and texts.
-            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-\.\_])/g, '$1 $2');
+            ans = ans.replace(/(\[\/[^\]]+?\])([a-zA-Z0-9\-._])/g, '$1 $2');
             return ans;
         });
     }
@@ -293,7 +292,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
                 case 'DL':
                     return converters.dl(node, ctx);
                 case 'DT':
-                    return converters.dt(node, ctx);
+                    return converters.dt();
                 case 'EM':
                     return converters.em(node, ctx);
                 case 'H1':
@@ -307,7 +306,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
                 case 'I':
                     return converters.i(node, ctx);
                 case 'IMG':
-                    return converters.img(node, ctx);
+                    return converters.img(node);
                 case 'LI':
                     return converters.li(node, ctx);
                 case 'OL':
@@ -476,7 +475,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
             // }
             return ans;
         }),
-        dt: (_ele, ctx) => __awaiter(void 0, void 0, void 0, function* () {
+        dt: () => __awaiter(void 0, void 0, void 0, function* () {
             // const ans = `${converters.rescure(ele)}：`
             // return ans
             return '';
@@ -542,7 +541,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
             const ans = `[i]${yield converters.recurse(ele, ctx)}[/i]`;
             return ans;
         }),
-        img: (img, _ctx) => __awaiter(void 0, void 0, void 0, function* () {
+        img: (img) => __awaiter(void 0, void 0, void 0, function* () {
             if (img.alt === 'Author image') {
                 return '';
             }
@@ -704,7 +703,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
                 [/\.\.\.( |$)/g, '…'],
                 [/\.( |$)/g, '。'],
                 [/\?( |$)/g, '？'],
-                [/( |^)\-( |$)/g, ' —— '],
+                [/( |^)-( |$)/g, ' —— '],
             ],
         ];
         for (const mapping of mappings) {
@@ -762,6 +761,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
         const enableAlbum = true;
         return enableAlbum
             ? slides.length > 1
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             : slides.every(([_, caption]) => caption === ' ');
     }
     /**
@@ -1060,7 +1060,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
         tweetMetadata.userTag = document.querySelector('div[data-testid=tweet] > div:nth-child(2) a div:nth-child(2) span').innerHTML.replace('@', '');
         tweetMetadata.userName = document.querySelector('div[data-testid=tweet] > div:nth-child(2) a span span').innerHTML;
         tweetMetadata.lang = document.querySelector('article div[lang]').getAttribute('lang');
-        let texts = [];
+        const texts = [];
         for (const i of document.querySelector('article div[lang]').querySelectorAll('span')) {
             texts.push(i.innerHTML);
         }
@@ -1076,7 +1076,7 @@ ${translateMachinely(`[size=6][b]${title}[/b][/size]`, ctx)}\n\n${content}[/inde
         const backgroundColor = mode === 'dark' ? '#000000' : '#FFFFFF';
         const foregroundColor = mode === 'dark' ? '#D9D9D9' : '#0F1419';
         const dateString = `${tweet.date} · ${tweet.source} · SPX`;
-        let content = tweet.text;
+        const content = tweet.text;
         return `[align=center][table=560,${backgroundColor}]
 [tr][td][font=-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif][indent]
 [float=left][img=44,44]${(_a = ProfilePictures.get(tweet.userTag)) !== null && _a !== void 0 ? _a : '【TODO：头像】'}[/img][/float][size=15px][b][color=${foregroundColor}]${tweet.userName}[/color][/b]

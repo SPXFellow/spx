@@ -5,7 +5,7 @@ import * as path from 'path'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
-import { DiscordConfig, onMessage, onReactionAdd, onReady } from './discord-bot'
+import { DiscordConfig, onInteractionCreate, onMessage, onMessageReactionAdd, onReady } from './discord-bot'
 
 const configPath = path.join(__dirname, './config.json')
 let httpPort: number | undefined
@@ -14,7 +14,7 @@ let ownerPassword: string | undefined
 let vipPassword: string | undefined
 
 let discordClient: Client | undefined
-let discord: DiscordConfig | undefined
+export let discord: DiscordConfig | undefined
 
 (function loadFiles() {
 	if (fs.existsSync(configPath)) {
@@ -43,11 +43,11 @@ let discord: DiscordConfig | undefined
 	try {
 		if (discord) {
 			discordClient = new Client({
-				partials: ['MESSAGE', 'USER'],
+				partials: ['MESSAGE', 'REACTION', 'USER'],
 				intents: [
 					Intents.FLAGS.GUILDS,
 					Intents.FLAGS.GUILD_BANS,
-					Intents.FLAGS.GUILD_EMOJIS,
+					Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
 					Intents.FLAGS.GUILD_INTEGRATIONS,
 					Intents.FLAGS.GUILD_INVITES,
 					Intents.FLAGS.GUILD_MESSAGES,
@@ -59,7 +59,8 @@ let discord: DiscordConfig | undefined
 			await discordClient.login(discord.token)
 			discordClient.once('ready', onReady.bind(undefined, discord, discordClient))
 			discordClient.on('messageCreate', onMessage.bind(undefined, discord))
-			discordClient.on('messageReactionAdd', onReactionAdd.bind(undefined, discord))
+			discordClient.on('messageReactionAdd', onMessageReactionAdd.bind(undefined, discord))
+			discordClient.on('interactionCreate', onInteractionCreate.bind(undefined, discord))
 			console.info('Discord Bot launched.')
 		}
 	} catch (e) {
