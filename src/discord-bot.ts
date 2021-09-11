@@ -51,7 +51,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 
 		switch (interaction.commandName) {
 			case 'approve': {
-				const key = interaction.options.get('id')!.value as string
+				const key = interaction.options.getString('id')!
 				try {
 					ReviewCache.approve(key, executor)
 					if (ReviewCache.isApproved(key)) {
@@ -79,12 +79,12 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 						sendMessage: content => (interaction.channel as TextChannel).send(content),
 					})
 				} else {
-					await interaction.reply(`❌ 名为 ${translator} 的用户从未亲自使用过 SPX。`)
+					interaction.reply(`❌ 名为 ${translator} 的用户从未亲自使用过 SPX。`)
 				}
 				break
 			}
 			case 'backup':
-				await interaction.reply({
+				interaction.reply({
 					content: '💾 Backup',
 					files: [
 						BugCache.bugsPath,
@@ -98,7 +98,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 						const target = tagToName(interaction.user.tag)
 						ColorCache.remove(target)
 						ColorCache.save()
-						await interaction.reply({
+						interaction.reply({
 							embeds: [new MessageEmbed()
 								.setDescription(`已移除 ${target} 的颜色`)
 								.setColor('#000000')
@@ -110,7 +110,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 					case 'get': {
 						const target = tagToName(interaction.user.tag)
 						const color = BugCache.getColorFromTranslator(target)
-						await interaction.reply({ embeds: [getColorEmbed(target, color)] })
+						interaction.reply({ embeds: [getColorEmbed(target, color)] })
 						break
 					}
 					case 'set': {
@@ -127,7 +127,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 							ColorCache.set('WuGuangYao', color)
 						}
 						ColorCache.save()
-						await interaction.reply({
+						interaction.reply({
 							embeds: [new MessageEmbed()
 								.setDescription(`已设置 ${targetName} 的颜色为 ${color}${locked ? '  \n🏳‍🌈 Ff98sha 与 WuGuangYao 已锁。' : ''}`)
 								.setColor(color as `#${string}`)
@@ -141,20 +141,20 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 				// const name = interaction.options.first()!.name
 				// const role = config.roles?.find(v => v.name === name)?.role
 				// if (!role) {
-				// 	await interaction.reply({ content: `❌ Unknown role name ${name}.`, ephemeral: true })
+				// 	interaction.reply({ content: `❌ Unknown role name ${name}.`, ephemeral: true })
 				// 	break
 				// }
 				// const rolesManager = interaction.member?.roles
 				// if (!rolesManager || Array.isArray(rolesManager)) {
-				// 	await interaction.reply({ content: `❌ Cannot manage your roles.`, ephemeral: true })
+				// 	interaction.reply({ content: `❌ Cannot manage your roles.`, ephemeral: true })
 				// 	break
 				// }
 				// if (rolesManager.cache.has(role)) {
-				// 	await interaction.reply({ content: `❌ You already have the role ${name}.`, ephemeral: true })
+				// 	interaction.reply({ content: `❌ You already have the role ${name}.`, ephemeral: true })
 				// 	break
 				// }
 				// await rolesManager.add(role)
-				// await interaction.reply({ content: `✅ Joined role ${name}.`, ephemeral: true })
+				// interaction.reply({ content: `✅ Joined role ${name}.`, ephemeral: true })
 				break
 			}
 			case 'ping':
