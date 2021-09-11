@@ -4,19 +4,6 @@ import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
 import { DiscordConfig } from './discord-bot'
 
-enum ApplicationCommandOptionTypes {
-  SUB_COMMAND = 1,
-  SUB_COMMAND_GROUP = 2,
-  STRING = 3,
-  INTEGER = 4,
-  BOOLEAN = 5,
-  USER = 6,
-  CHANNEL = 7,
-  ROLE = 8,
-  MENTIONABLE = 9,
-  NUMBER = 10,
-}
-
 export async function onReady(config: DiscordConfig, client: DiscordClient) {
 	const data: ApplicationCommandData[] = [
 		{
@@ -24,7 +11,7 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			description: 'Approve the existing translation of a bug.',
 			options: [{
 				name: 'id',
-				type: ApplicationCommandOptionTypes.STRING,
+				type: 'STRING',
 				description: 'The ticket key.',
 				required: true,
 			}]
@@ -35,13 +22,13 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			options: [
 				{
 					name: 'user',
-					type: ApplicationCommandOptionTypes.USER,
+					type: 'USER',
 					description: 'The user.',
 					required: true,
 				},
 				{
 					name: 'content',
-					type: ApplicationCommandOptionTypes.STRING,
+					type: 'STRING',
 					description: 'The ticket ID and translated summary with the same format as your translation message.',
 					required: true,
 				}
@@ -57,40 +44,40 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			options: [
 				{
 					name: 'clear',
-					type: ApplicationCommandOptionTypes.SUB_COMMAND,
+					type: 'SUB_COMMAND',
 					description: 'Clear the color of someone.',
 					options: [{
 						name: 'user',
-						type: ApplicationCommandOptionTypes.USER,
+						type: 'USER',
 						description: 'The user.',
 						required: true,
 					}],
 				},
 				{
 					name: 'get',
-					type: ApplicationCommandOptionTypes.SUB_COMMAND,
+					type: 'SUB_COMMAND',
 					description: 'Get the color of someone.',
 					options: [{
 						name: 'user',
-						type: ApplicationCommandOptionTypes.USER,
+						type: 'USER',
 						description: 'The user.',
 						required: true,
 					}],
 				},
 				{
 					name: 'set',
-					type: ApplicationCommandOptionTypes.SUB_COMMAND,
+					type: 'SUB_COMMAND',
 					description: 'Set the color of yourself or someone else.',
 					options: [
 						{
 							name: 'value',
-							type: ApplicationCommandOptionTypes.STRING,
+							type: 'STRING',
 							description: 'A hexadecimal representation of the color.',
 							required: true,
 						},
 						{
 							name: 'user',
-							type: ApplicationCommandOptionTypes.USER,
+							type: 'USER',
 							description: 'The user. Defaults to yourself.',
 							required: false,
 						}
@@ -107,7 +94,7 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 			description: 'Query all fixed, untranslated bugs.',
 			options: [{
 				name: 'jql',
-				type: ApplicationCommandOptionTypes.STRING,
+				type: 'STRING',
 				description: 'An optional JQL query.',
 			}],
 		},
@@ -132,7 +119,7 @@ export async function onReady(config: DiscordConfig, client: DiscordClient) {
 	// 		description: 'Join a role.',
 	// 		options: config.roles.map(r => ({
 	// 			name: r.name,
-	// 			type: ApplicationCommandOptionTypes.SUB_COMMAND,
+	// 			type: 'SUB_COMMAND'
 	// 			description: `Join the role ${r.name}`,
 	// 		}))
 	// 	})

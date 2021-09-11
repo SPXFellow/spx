@@ -34,7 +34,6 @@
     },
     "dependencies": {
         "@discordjs/builders": "^0.6.0",
-        "@discordjs/rest": "^0.1.0-canary.0",
         "@types/mocha": "^9.0.0",
         "discord-api-types": "^0.23.1",
         "discord.js": "13.0.0-dev.2e078e4.1625529824",

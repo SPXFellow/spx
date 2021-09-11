@@ -1,4 +1,4 @@
-import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User } from 'discord.js'
+import { GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User } from 'discord.js'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
@@ -13,6 +13,7 @@ export interface DiscordConfig {
 	token: string,
 	guild: `${bigint}`,
 	channel: `${bigint}`,
+	appId: `${bigint}`,
 	role: `${bigint}`,
 	roles?: {
 		name: string,
