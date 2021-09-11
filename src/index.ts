@@ -5,7 +5,7 @@ import * as path from 'path'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
-import { DiscordConfig, onInteractionCreate, onMessage, onMessageReactionAdd, onReady } from './discord-bot'
+import { DiscordConfig, onInteractionCreate, onMessage, onMessageReactionAdd } from './discord-bot'
 
 const configPath = path.join(__dirname, './config.json')
 let httpPort: number | undefined
@@ -57,7 +57,6 @@ export let discord: DiscordConfig | undefined
 				],
 			})
 			await discordClient.login(discord.token)
-			discordClient.once('ready', onReady.bind(undefined, discord, discordClient))
 			discordClient.on('messageCreate', onMessage.bind(undefined, discord))
 			discordClient.on('messageReactionAdd', onMessageReactionAdd.bind(undefined, discord))
 			discordClient.on('interactionCreate', onInteractionCreate.bind(undefined, discord))
