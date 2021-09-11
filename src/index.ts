@@ -5,7 +5,7 @@ import * as path from 'path'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
-import { DiscordConfig, onInteractionCreate, onMessage, onMessageReactionAdd } from './discord-bot'
+import { DiscordConfig, onMessage, onReactionAdd, onInteraction } from './discord-bot'
 
 const configPath = path.join(__dirname, './config.json')
 let httpPort: number | undefined
@@ -43,11 +43,11 @@ export let discord: DiscordConfig | undefined
 	try {
 		if (discord) {
 			discordClient = new Client({
-				partials: ['MESSAGE', 'REACTION', 'USER'],
+				partials: ['MESSAGE', 'USER'],
 				intents: [
 					Intents.FLAGS.GUILDS,
 					Intents.FLAGS.GUILD_BANS,
-					Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+					Intents.FLAGS.GUILD_EMOJIS,
 					Intents.FLAGS.GUILD_INTEGRATIONS,
 					Intents.FLAGS.GUILD_INVITES,
 					Intents.FLAGS.GUILD_MESSAGES,
@@ -58,8 +58,8 @@ export let discord: DiscordConfig | undefined
 			})
 			await discordClient.login(discord.token)
 			discordClient.on('messageCreate', onMessage.bind(undefined, discord))
-			discordClient.on('messageReactionAdd', onMessageReactionAdd.bind(undefined, discord))
-			discordClient.on('interactionCreate', onInteractionCreate.bind(undefined, discord))
+			discordClient.on('onInteractionAdd', onInteraction.bind(undefined, discord))
+			discordClient.on('messageReactionAdd', onReactionAdd.bind(undefined, discord))
 			console.info('Discord Bot launched.')
 		}
 	} catch (e) {

@@ -1,4 +1,4 @@
-import { GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, PartialMessageReaction, TextChannel, User } from 'discord.js'
+import { ApplicationCommandData, Client as DiscordClient, GuildMember, Interaction, Message, MessageEmbed, MessageOptions, MessageReaction, PartialGuildMember, PartialMessage, PartialUser, TextChannel, User } from 'discord.js'
 import { BugCache } from './cache/bug'
 import { ColorCache } from './cache/color'
 import { ReviewCache } from './cache/review'
@@ -14,7 +14,6 @@ export interface DiscordConfig {
 	guild: `${bigint}`,
 	channel: `${bigint}`,
 	role: `${bigint}`,
-	appId: `${bigint}`,
 	roles?: {
 		name: string,
 		role: `${bigint}`,
@@ -37,13 +36,12 @@ function getColorEmbed(translator: string, color: `#${string}`) {
 		.setThumbnail(`https://colorhexa.com/${color.slice(1)}.png`)
 }
 
-export async function onInteractionCreate(config: DiscordConfig, interaction: Interaction) {
+export async function onInteraction(config: DiscordConfig, interaction: Interaction) {
+	try {
 		if (!interaction.isCommand()) {
 			return
 		}
 		const executor = tagToName(interaction.user.tag)
-
-		console.log(interaction.toJSON())
 
 		if (!interaction.member || (
 			interaction.channelId !== config.channel && !['join', 'ping'].includes(interaction.commandName)
@@ -53,7 +51,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 
 		switch (interaction.commandName) {
 			case 'approve': {
-				const key = interaction.options.getString('id')!
+				const key = interaction.options.get('id')!.value as string
 				try {
 					ReviewCache.approve(key, executor)
 					if (ReviewCache.isApproved(key)) {
@@ -81,12 +79,12 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 						sendMessage: content => (interaction.channel as TextChannel).send(content),
 					})
 				} else {
-					interaction.reply(`❌ 名为 ${translator} 的用户从未亲自使用过 SPX。`)
+					await interaction.reply(`❌ 名为 ${translator} 的用户从未亲自使用过 SPX。`)
 				}
 				break
 			}
 			case 'backup':
-				interaction.reply({
+				await interaction.reply({
 					content: '💾 Backup',
 					files: [
 						BugCache.bugsPath,
@@ -95,12 +93,12 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 				})
 				break
 			case 'color':
-				switch (interaction.options.getSubcommand()) {
+				switch (interaction.options.first()!.name) {
 					case 'clear': {
-						const target = tagToName(interaction.user.tag)
+						const target = tagToName(interaction.options.first()!.options!.first()!.user!.tag)
 						ColorCache.remove(target)
 						ColorCache.save()
-						interaction.reply({
+						await interaction.reply({
 							embeds: [new MessageEmbed()
 								.setDescription(`已移除 ${target} 的颜色`)
 								.setColor('#000000')
@@ -110,14 +108,14 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 						break
 					}
 					case 'get': {
-						const target = tagToName(interaction.user.tag)
+						const target = tagToName(interaction.options.first()!.options!.first()!.user!.tag)
 						const color = BugCache.getColorFromTranslator(target)
-						interaction.reply({ embeds: [getColorEmbed(target, color)] })
+						await interaction.reply({ embeds: [getColorEmbed(target, color)] })
 						break
 					}
 					case 'set': {
-						let color = (interaction.options.getString('value')!).toLowerCase()
-						const target: User | undefined = interaction.user
+						let color = (interaction.options.first()!.options!.get('value')!.value as string).toLowerCase()
+						const target: User | undefined = interaction.options.first()!.options!.get('user')?.user
 						const targetName = target ? tagToName(target.tag) : executor
 						if (!color.startsWith('#')) {
 							color = `#${color}`
@@ -129,7 +127,7 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 							ColorCache.set('WuGuangYao', color)
 						}
 						ColorCache.save()
-						interaction.reply({
+						await interaction.reply({
 							embeds: [new MessageEmbed()
 								.setDescription(`已设置 ${targetName} 的颜色为 ${color}${locked ? '  \n🏳‍🌈 Ff98sha 与 WuGuangYao 已锁。' : ''}`)
 								.setColor(color as `#${string}`)
@@ -143,26 +141,27 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 				// const name = interaction.options.first()!.name
 				// const role = config.roles?.find(v => v.name === name)?.role
 				// if (!role) {
-				// 	interaction.reply({ content: `❌ Unknown role name ${name}.`, ephemeral: true })
+				// 	await interaction.reply({ content: `❌ Unknown role name ${name}.`, ephemeral: true })
 				// 	break
 				// }
 				// const rolesManager = interaction.member?.roles
 				// if (!rolesManager || Array.isArray(rolesManager)) {
-				// 	interaction.reply({ content: `❌ Cannot manage your roles.`, ephemeral: true })
+				// 	await interaction.reply({ content: `❌ Cannot manage your roles.`, ephemeral: true })
 				// 	break
 				// }
 				// if (rolesManager.cache.has(role)) {
-				// 	interaction.reply({ content: `❌ You already have the role ${name}.`, ephemeral: true })
+				// 	await interaction.reply({ content: `❌ You already have the role ${name}.`, ephemeral: true })
 				// 	break
 				// }
 				// await rolesManager.add(role)
-				// interaction.reply({ content: `✅ Joined role ${name}.`, ephemeral: true })
+				// await interaction.reply({ content: `✅ Joined role ${name}.`, ephemeral: true })
 				break
 			}
 			case 'ping':
 				interaction.reply('🏓 Pong!')
 				break
 			case 'query': {
+				await interaction.defer()
 				const currentTime = new Date()
 				const remainingCooldown = lastQueryTime ? QueryCooldown - (currentTime.getTime() - lastQueryTime.getTime()) : 0
 				if (remainingCooldown > 0) {
@@ -235,6 +234,9 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 				break
 			}
 		}
+	} catch (e) {
+		console.error('[Discord#onInteraction] ', e)
+	}
 }
 
 export async function onMessage(config: DiscordConfig, message: Message | PartialMessage) {
@@ -352,7 +354,7 @@ async function searchIssues(jql: string) {
 	return ans
 }
 
-export async function onMessageReactionAdd(_config: DiscordConfig, reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
+export async function onReactionAdd(_config: DiscordConfig, reaction: MessageReaction, user: User | PartialUser) {
 	try {
 		user = await ensureUser(user)
 		if (overrideConfirmations.has(reaction.message.id)) {
