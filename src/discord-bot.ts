@@ -38,7 +38,6 @@ function getColorEmbed(translator: string, color: `#${string}`) {
 }
 
 export async function onInteractionCreate(config: DiscordConfig, interaction: Interaction) {
-	try {
 		if (!interaction.isCommand()) {
 			return
 		}
@@ -234,9 +233,6 @@ export async function onInteractionCreate(config: DiscordConfig, interaction: In
 				break
 			}
 		}
-	} catch (e) {
-		console.error('[Discord#onInteraction] ', e)
-	}
 }
 
 export async function onMessage(config: DiscordConfig, message: Message | PartialMessage) {
